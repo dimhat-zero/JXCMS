@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本地mysql
+Source Server         : php
 Source Server Version : 50621
-Source Host           : 127.0.0.1:3306
+Source Host           : localhost:3306
 Source Database       : jxcms
 
 Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2016-05-12 09:22:41
+Date: 2016-05-14 15:18:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -78,10 +78,10 @@ CREATE TABLE `enter_stock` (
 DROP TABLE IF EXISTS `enter_stock_detail`;
 CREATE TABLE `enter_stock_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `enter_stock_id` bigint(20) NOT NULL,
-  `product_id` bigint(20) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `enter_stock_id` bigint(20) NOT NULL COMMENT '入库单号',
+  `product_id` bigint(20) NOT NULL COMMENT '产品id',
+  `quantity` double(10,2) NOT NULL COMMENT '数量',
+  `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '单价',
   PRIMARY KEY (`id`),
   KEY `enter_stock_id` (`enter_stock_id`),
   KEY `product_id` (`product_id`),
@@ -140,10 +140,10 @@ CREATE TABLE `sale` (
 DROP TABLE IF EXISTS `sale_detail`;
 CREATE TABLE `sale_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `sale_id` bigint(20) NOT NULL,
-  `product_id` bigint(20) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `sale_id` bigint(20) NOT NULL COMMENT '销售单号',
+  `product_id` bigint(20) NOT NULL COMMENT '产品id',
+  `quantity` double(10,2) NOT NULL COMMENT '数量',
+  `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '单价',
   PRIMARY KEY (`id`),
   KEY `sale_id` (`sale_id`),
   KEY `product_id` (`product_id`),
@@ -178,7 +178,7 @@ CREATE TABLE `stock_pile` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `stock_house_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `quantity` double(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stock_house_id` (`stock_house_id`),
   KEY `product_id` (`product_id`),
