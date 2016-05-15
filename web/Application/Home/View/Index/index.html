@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/style.css">
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/index.js"> </script>
+    <title>后台首页</title>
+</head>
+<body>
+<div class="top">
+    <div id="top_t">
+        <a href="/index.php"><div id="logo" class="fl"></div></a>
+        <div id="photo_info" class="fr">
+            <div id="photo" class="fl">
+                <a href="#"><img src="__PUBLIC__/images/a.png" alt="" width="60" height="60"></a>
+            </div>
+            <div id="base_info" class="fr">
+                <div class="help_info">
+                    <a href="__CONTROLLER__/help" id="hp">&nbsp;</a>
+                    <a href="__CONTROLLER__/about" id="gy">&nbsp;</a>
+                    <a href="__MODULE__/User/logout" id="out">&nbsp;</a>
+                </div>
+                <div class="info_center">
+                    admin
+                    <span id="nt">通知</span><span><a href="#" id="notice">3</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="side_here">
+        <div id="side_here_l" class="fl"></div>
+        <div id="here_area" class="fl">当前位置：</div>
+    </div>
+</div>
+<div class="side">
+    <div class="sideMenu" style="margin:0 auto">
+        <h3>基础信息维护</h3>
+        <ul>
+            <li><a href="__MODULE__/Employee/list" target="right">员工管理</a></li>
+            <li><a href="__MODULE__/Stock/list" target="right">仓库管理</a></li>
+            <li><a href="__MODULE__/Product/category" target="right">产品类别管理</a></li>
+            <li><a href="__MODULE__/Product/list" target="right">产品管理</a></li>
+        </ul>
+        <h3> 入库管理</h3>
+        <ul>
+            <li><a href="__MODULE__/EnterStock/list" target="right">历史入库信息</a></li>
+            <li><a href="__MODULE__/EnterStock/add" target="right">新增入库单</a></li>
+        </ul>
+
+        <h3>销售管理</h3>
+        <ul>
+            <li><a href="__MODULE__/Sale/list" target="right">历史销售信息</a></li>
+            <li><a href="__MODULE__/Sale/add" target="right">新增销售单</a></li>
+        </ul>
+        <h3> 库存管理</h3>
+        <ul>
+            <li><a href="__MODULE__/StockPile/list" target="right">查看仓库库存</a></li>
+        </ul>
+        <h3> 统计功能</h3>
+        <ul>
+            <li><a href="__MODULE__/Report/saleMoney" target="right">销售额统计</a></li>
+            <li><a href="__MODULE__/Report/saleProduct" target="right">销售货物统计</a></li>
+        </ul>
+
+
+
+
+    </div>
+</div>
+<div class="main">
+    <iframe name="right" id="rightMain" src="__CONTROLLER__/main" frameborder="no" scrolling="auto" width="100%" height="auto" allowtransparency="true"></iframe>
+</div>
+<div class="bottom">
+    <div id="bottom_bg">版权</div>
+</div>
+<div class="scroll">
+    <a href="javascript:;" class="per" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(1);"></a>
+    <a href="javascript:;" class="next" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(2);"></a>
+</div>
+</body>
+
+</html>
+
