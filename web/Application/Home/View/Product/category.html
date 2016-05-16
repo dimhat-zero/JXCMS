@@ -25,7 +25,7 @@
 <div class="container">
 
     <div id="button" class="mt10">
-        <a href="__CONTROLLER__/add">
+        <a href="__CONTROLLER__/category_add">
         <input type="button" name="button" class="btn btn82 btn_add" value="新增">
         </a>
         <input type="button" name="button" class="btn btn82 btn_del" value="删除">
@@ -44,10 +44,10 @@
                 </tr>
                 <foreach name="list" item="vo">
                  <tr class="tr">
-                    <td class="td_center"><input value="{$vo.id}" name="checkbox" type="checkbox"></td>
+                    <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
                     <td>{$vo.name}</td>
                     <td>{$vo.desc}</td>
-                     <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
+                     <td><a href="__CONTROLLER__/category_mod/id/{$vo.id}" class="opa">修改</a></td>
                  </tr>
                 </foreach>
             </table>
@@ -73,14 +73,8 @@
 $(document).ready(function(){
     $(".btn_del").click(function(){
         if(confirm("确定删除吗？")){
-
+            location = "__CONTROLLER__/category_del/ids/"+getCheckboxIds();
         }
-    });
-    $(".btn_checked").click(function(){
-        $("input[name='checkbox']").attr("checked",true);
-    });
-    $(".btn_nochecked").click(function(){
-        $("input[name='checkbox']").attr("checked",false);
     });
 
 });
