@@ -7,6 +7,7 @@
  */
 
 namespace Home\Controller;
+use Home\Model\CategoryModel;
 use Think\Controller;
 
 class ProductController extends Controller{
@@ -22,6 +23,7 @@ class ProductController extends Controller{
             $this->display('category_edit');
         }else if(IS_POST){
             $category = D('Category');
+            //$category = new CategoryModel();
             if($category->create()){
                 $result = $category->add();
                 if($result){
@@ -76,34 +78,45 @@ class ProductController extends Controller{
     /*
      * 产品
      */
-    public function list($name='',$category_id=Null,$pageSize=10){
+    public function index($name=NULL,$category_id=Null,$pageSize=10){
         //根据名称、类别分页查询
-        $condition['name']=array('like','%'.I('get.name').'%');
+        if($name){
+            $condition['name']=array('like','%'.I('get.name').'%');
+        }
         if($category_id){
             $condition['category_id']=I('get.category_id');
         }
         
-        $Product = M("Product");
-        $count = $Product->where($condition)->count();
-        $page = new \Think\Page($count,$pageSize);
+        $Product = D("ProductView");
+        $page=getpage($Product,$condition);
+        //$count = $Product->where($condition)->count();
+        //$page = new \Think\Page($count,$pageSize);
         // 进行分页数据查询
-        $list = $Product->where($condition)->limit($page->firstRow.','.$page->listRows)->select();
-        $this->assign('list',$list);
+        $result = $Product->where($condition)->limit($page->firstRow.','.$page->listRows)->select();
+        $this->assign('list',$result);
+        //setPageStyle($page);
         $this->assign('page',$page->show());
+        var_dump($page);
+        //增加其他信息
+        $query['name']=$name;
+        $query['category_id']=$category_id;
+        $this->assign('query',$query);
+        $this->addCategory();
         $this->display();
     }
 
     public function add(){
         if(IS_GET){
+            $this->addCategory();
             $this->display('edit');
         }else if(IS_POST){
-            $product = M("Product");
+            $product = D("Product");
             if($product->create()){
                 $result = $product->add();
                 if($result){
-                    $this->redirect("list","新增成功");
+                    $this->redirect("index","新增成功");
                 }else{
-                    $this->error("数据添加错误",U("list"));
+                    $this->error("数据添加错误",U("index"));
                 }
             }else{
                 $this->error($product->getError());
@@ -112,24 +125,21 @@ class ProductController extends Controller{
         
     }
 
-    public function mod($id){
+    public function update($id){
         if(IS_GET){
             $obj = M("Product")->find($id);
             if($obj){
-                $this->assign("product",)
+                $this->addCategory();
+                $this->assign("product",$obj);
                 $this->display('edit');
             }else{
-                $this->error("找不到对象",U("list"),3);
+                $this->error("找不到对象",U("index"),3);
             }
         }else if(IS_POST){
             $product = D("Product");
             if($product->create()){
-                $result = $product->save();
-                if($result){
-                    $this->redirect("list","修改成功");
-                }else{
-                    $this->error("数据修改错误",U("list"));
-                }
+                $product->save();
+                $this->redirect("index","修改成功");
             }else{
                 $this->error($product->getError());
             }
@@ -139,7 +149,10 @@ class ProductController extends Controller{
 
     public function del($ids){
         M("Product")->delete($ids);
-        $this->redirect("list");
+        $this->redirect("index");
     }
 
+    private function addCategory(){
+        $this->assign('categorys',M('Category')->select());
+    }
 }

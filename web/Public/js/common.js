@@ -39,15 +39,15 @@ $(function(){
 		$("#search_form").submit();
 	})
 
-	function getCheckboxIds(){
-	    var ids = new Array();
-	    $("input[name='checkbox']:checked").each(function(){
-	        ids.push(this.data("id"));
-	    })
-	    var idsStr=ids.join(',');
-	    return idsStr;
-	}
- 
 });
+
+function getCheckboxIds(){
+	var ids = new Array();
+	$("input[name='checkbox']:checked").each(function(){
+		ids.push($(this).data("id"));
+	})
+	var idsStr=ids.join(',');
+	return idsStr;
+}
 
 

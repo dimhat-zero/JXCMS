@@ -118,6 +118,7 @@ border-left: 1px solid #d3dbde;
 	border-bottom: 1px solid #d3dbde;
     border-left: 1px solid #d3dbde;
     padding: 5px;
+	text-align: center;
 }
 .form_table td{
 	padding: 5px 5px;

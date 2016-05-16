@@ -32,7 +32,7 @@
         <input type="button" name="button" class="btn btn82 btn_checked" value="全选">
         <input type="button" name="button" class="btn btn82 btn_nochecked" value="取消">
         <input type="button" name="button" class="btn btn82 btn_export" value="导出">
-        <input type="button" name="button" class="btn btn82 btn_search" value="查询"> 
+        <input type="button" name="button" class="btn btn82 btn_search" value="查询">
     </div>
     <!--search bar-->
     <div id="search_bar" class="mt10">
@@ -44,19 +44,20 @@
               <table class="form_table" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>产品名称</td>
-                  <td><input type="text" name="name" class="input-text lh25" size="10"></td>
-                  <td>产品规格</td>
-                  <td><input type="text" name="spec" class="input-text lh25" size="10"></td>
-                  <td>产品单位</td>
-                  <td><input type="text" name="unit" class="input-text lh25" size="10"></td>
+                  <td><input type="text" name="name" value="{$query.name}" class="input-text lh25" size="10"></td>
                   <td>产品类别</td>
                   <td>
                     <span class="fl">
                       <div class="select_border"> 
                         <div class="select_containers "> 
-                        <select name="category_id" class="select"> 
+                        <select name="category_id" class="select">
+                            <option value="">全部</option>
                         <foreach name="categorys" item="category">
-                            <option value="{$category.id}">{$category.name}</option> 
+                            <eq name="category.id" value="$query.category_id">
+                                <option value="{$category.id}" selected>{$category.name}{$category.id} </option>
+                            <else/>
+                                <option value="{$category.id}">{$category.name}</option>
+                            </eq>
                         </foreach>
                         </select> 
                         </div> 
@@ -73,11 +74,11 @@
     <!-- list table -->
     <div id="table" class="mt10">
         <div class="box span10 oh">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table" style="width:30%;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table" style="width:60%;">
                 <tr>
                     <th width="30">#</th>
                     <th width="100">产品名称</th>
-                    <th width="200">规格型号</th>
+                    <th width="100">规格型号</th>
                     <th width="100">产品单位</th>
                     <th width="100">产品类别</th>
                     <th width="100">参考价格</th>
