@@ -18,8 +18,8 @@ class ProductModel extends Model{
     );
 
     protected  $_auto=array(
-        array('price','get_price',3,'function'),
-        array('id','get_id',3,'function'),
+        //array('price','get_price',3,'function'),
+        //array('id','get_id',3,'function'),
         //array('price','0.0'),
     );
 

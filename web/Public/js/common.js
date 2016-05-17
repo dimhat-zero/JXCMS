@@ -36,6 +36,7 @@ $(function(){
 	    $("input[name='checkbox']").attr("checked",false);
 	});
 	$(".btn_search").click(function(){
+		$('#pageNo').val(1);
 		$("#search_form").submit();
 	})
 

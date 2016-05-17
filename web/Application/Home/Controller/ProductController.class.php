@@ -8,6 +8,7 @@
 
 namespace Home\Controller;
 use Home\Model\CategoryModel;
+use Home\Model\Page;
 use Think\Controller;
 
 class ProductController extends Controller{
@@ -27,6 +28,7 @@ class ProductController extends Controller{
             if($category->create()){
                 $result = $category->add();
                 if($result){
+                    //$this->display('category_edit');
                     $this->redirect("category","新增成功");
                 }else{
                     $this->error("数据添加错误");
@@ -74,7 +76,7 @@ class ProductController extends Controller{
     /*
      * 产品
      */
-    public function index($name=NULL,$category_id=Null,$pageSize=10){
+    public function index($name=NULL,$category_id=Null,$pageSize=10,$pageNo=1){
         //根据名称、类别分页查询
         if($name){
             $condition['name']=array('like','%'.I('get.name').'%');
@@ -84,18 +86,22 @@ class ProductController extends Controller{
         }
         
         $Product = D("ProductView");
-        $page=getpage($Product,$condition);
-        //$count = $Product->where($condition)->count();
+        //$page=getpage($Product,$condition);
+        $count = $Product->where($condition)->count();
+        //$page = get_page($count);
+
+        $page = new Page($count);//默认取pageNo
         //$page = new \Think\Page($count,$pageSize);
         // 进行分页数据查询
-        $result = $Product->where($condition)->limit($page->firstRow.','.$page->listRows)->select();
+        $result = $Product->where($condition)->limit($page->firstRow,$page->listRows)->select();
         $this->assign('list',$result);
-        //setPageStyle($page);
-        $this->assign('page',$page->show());
         
         //增加其他信息
         $query['name']=$name;
         $query['category_id']=$category_id;
+        $query['pageNo']=$page->nowPage;
+        $query['totalPages']=$page->totalPages;
+        $query['totalRows']=$page->totalRows;
         $this->assign('query',$query);
         $this->addCategory();
         $this->display();
@@ -110,6 +116,7 @@ class ProductController extends Controller{
             if($product->create()){
                 $result = $product->add();
                 if($result){
+                    //$this->display('edit');
                     $this->redirect("index","新增成功");
                 }else{
                     $this->error("数据添加错误");
