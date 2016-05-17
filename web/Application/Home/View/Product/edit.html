@@ -19,7 +19,11 @@
             <div class="box_top"><b class="pl15">产品新增/修改</b></div>
             <div class="box_center">
               <form action="" class="jqtransform" method="post">
+                <empty name="$product">
+                  <else/>
                   <input type="hidden" name="id" value="{$product.id}">
+                </empty>
+                  
                <table class="form_table pt15 pb15" width="100%" border="0" cellpadding="0" cellspacing="0">
                  <tr>
                   <td class="td_right">产品名称：</td>

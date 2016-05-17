@@ -38,3 +38,39 @@ function getpage(&$m,$where,$pagesize=10){
 
     return $p;
 }
+
+/*
+ * 库存操作共用函数
+ */
+public function findStockPile($stock_house_id,$product_id){
+    $StockPile = M('StockPile');
+    $condition['stock_house_id']=$stock_house_id;
+    $condition['product_id']=$product_id;
+    $stockPile=$StockPile->find($condition);//unique
+    if($stockPile){//exist
+        return $tockPile->id;
+    }
+    $stockPile['stock_house_id']=$stock_house_id;
+    $stockPile['product_id']=$product_id;
+    $stockPile['quantity']=0;
+    return $StockPile->add($stockPile);
+}
+
+//添加库存，如果不存在则创建，如果存在则增加数量
+public function IncStockPile($stock_house_id,$product_id,$quantity){
+    $StockPile = M('StockPile');
+    $id = findStockPile($stock_house_id,$product_id);
+    if($id){
+        $StockPile->where("id=".$id).setInc('quantity',$quantity);
+    }
+    return $id;
+}
+
+public function DecStockPile($stock_house_id,$product_id,$quantity){
+    $StockPile = M('StockPile');
+    $id = findStockPile($stock_house_id,$product_id);
+    if($id){
+        $StockPile->where("id=".$id).setDec('quantity',$quantity);
+    }
+    return $id;
+}

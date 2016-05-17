@@ -29,7 +29,7 @@ class ProductController extends Controller{
                 if($result){
                     $this->redirect("category","新增成功");
                 }else{
-                    $this->error("数据添加错误",U("category"));
+                    $this->error("数据添加错误");
                 }
             }else{
                 $this->error($category->getError());
@@ -61,12 +61,8 @@ class ProductController extends Controller{
         }else if(IS_POST){
             $category = D("Category");
             if($category->create()){//mod should be update
-                $result = $category->save();
-                if($result){
-                    $this->redirect("category","保存成功");
-                }else{
-                    $this->error("数据修改错误",U("category"));
-                }
+                $result = $category->save();//modify number
+                $this->redirect("category","保存成功");
             }else{
                 $this->error($category->getError());
             }
@@ -96,7 +92,7 @@ class ProductController extends Controller{
         $this->assign('list',$result);
         //setPageStyle($page);
         $this->assign('page',$page->show());
-        var_dump($page);
+        
         //增加其他信息
         $query['name']=$name;
         $query['category_id']=$category_id;
@@ -116,7 +112,7 @@ class ProductController extends Controller{
                 if($result){
                     $this->redirect("index","新增成功");
                 }else{
-                    $this->error("数据添加错误",U("index"));
+                    $this->error("数据添加错误");
                 }
             }else{
                 $this->error($product->getError());
