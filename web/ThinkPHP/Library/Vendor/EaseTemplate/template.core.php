@@ -644,7 +644,7 @@ class ETCore{
 		if($this->AutoImage==1){
 			$NewFileDir = $this->FileDir[$this->ThisFile];
 			
-   			//FIX images
+   			//FIX img
 			if(is_array($this->ImgDir)){
 				foreach($this->ImgDir AS $rep){
 					$rep = trim($rep);

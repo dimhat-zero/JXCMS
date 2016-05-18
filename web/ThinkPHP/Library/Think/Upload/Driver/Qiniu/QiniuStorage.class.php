@@ -115,7 +115,7 @@
 			$url 		= 	'';
 
 			switch($type){
-				case 'images':
+				case 'img':
 					$url = $this->downLink($key);
 					if($param['imageInfo']){
 						$url .= '?imageInfo';
