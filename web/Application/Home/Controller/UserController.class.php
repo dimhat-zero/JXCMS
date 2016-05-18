@@ -67,6 +67,7 @@ class UserController extends  Controller{
             'length'=>4,
             'useNoise'=>false,
         );
+        ob_clean();
         $verify = new Verify($config);
         $verify->entry();
     }

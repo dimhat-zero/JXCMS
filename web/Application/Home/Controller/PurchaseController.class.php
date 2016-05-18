@@ -36,7 +36,7 @@ class PurchaseController extends Controller{
 
 	public function add(){
 		$user = session("user");
-		if($user==NULL) $this->rediect("User/login");
+		if($user==NULL) $this->redirect("User/login");
 		if(IS_GET){
 			$this->assign('employees',M('Employee')->select());
 			$this->assign('stockHouses',M('StockHouse')->select());

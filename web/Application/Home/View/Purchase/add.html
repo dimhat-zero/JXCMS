@@ -2,13 +2,20 @@
  <html lang="zh-CN">
  <head>
    <meta charset="UTF-8">
-   <link rel="stylesheet" href="__PUBLIC__/css/common.css">
-   <link rel="stylesheet" href="__PUBLIC__/css/main.css">
-   <link rel="stylesheet" href="__PUBLIC__/css/model.css">
+     <link rel="stylesheet" href="__PUBLIC__/css/common.css">
+     <link rel="stylesheet" href="__PUBLIC__/css/main.css">
+     <link rel="stylesheet" href="__PUBLIC__/css/leanModal.css">
    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
    <script type="text/javascript" src="__PUBLIC__/js/colResizable-1.3.min.js"></script>
    <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
    <script type="text/javascript" src="__PUBLIC__/js/jquery.leanModal.min.js"></script>
+
+     <!-- flexigrid -->
+     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/flexigrid/flexigrid_blue.css">
+     <script type="text/javascript" src="__PUBLIC__/js/jquery.dimhat.js"></script>
+     <script type="text/javascript" src="__PUBLIC__/js/flexigrid/flexigrid.js"></script>
+     <script type="text/javascript" src="__PUBLIC__/js/flexigrid/test.js"></script>
+
    <title>Document</title>
  </head>
  <body>
@@ -74,20 +81,8 @@
                <tr>
                    <td class="td_right">项目：</td>
                    <td class="">
-                      <table id="itemTable" class="list_table" style="width:50%" >
-                        <tr>
-                          <th width="100">产品名称</th>
-                          <th width="100">产品数量</th>
-                          <th width="100">产品单价</th>
-                          <th width="80">操作</th>
-                        </tr>
-                        <!--
-                        <tr><td>产品名称</td><td>产品数量</td><td>产品单价</td><td>操作</td></tr>
-                        <tr><td>产品名称</td><td>产品数量</td><td>产品单价</td><td>操作</td></tr>
-                        <tr><td>产品名称</td><td>产品数量</td><td>产品单价</td><td>操作</td></tr>
-                        <tr><td>产品名称</td><td>产品数量</td><td>产品单价</td><td>操作</td></tr>
-                        -->
-                      </table>
+                       <table id="flex" style="display: none"></table>
+
                    </td>
                </tr>
                  <tr>
@@ -95,7 +90,6 @@
                    <td class="">
                      <input type="button" name="button" class="btn btn82 btn_save2" value="保存">
                     <input type="reset" name="button" class="btn btn82 btn_res" value="重置">
-                    <input type="button" id="addItemBtn" href="#signup" class="btn btn82 btn_config" value="加项目">
                    </td>
                  </tr>
                </table>
@@ -104,74 +98,85 @@
           </div>
         </div>
      </div>
-   </div> 
+   </div>
 
+<!-- 增加表单 -->
+  <div id="signup">
+      <input type="button" id="addItemBtn" href="#signup" class="btn btn82 btn_config" style="display: none;" value="加项目">
+      <div id="signup-ct">
+          <div id="signup-header">
+              <h2>增加采购项目</h2>
 
-<div id="signup">
-  <div id="signup-ct">
-        <div id="signup-header">
-          <h2>增加采购项目</h2>
-          
-          <a class="modal_close" href="#"></a>
-        </div>
-        
-        <form action="" id="itemForm">
-     
-          <div class="txt-fld">
-            <label for="">产品</label>
-            <select  id="product_id" class="select">
-            <foreach name="products" item="product">
-                <option value="{$product.id}" data-unit="{$product.unit}" >{$product.name} </option>
-            </foreach>
-            </select> 
-            
+              <a class="modal_close" href="#"></a>
           </div>
-          <div class="txt-fld">
-            <label for="">单位</label>
-            <input id="product_unit" type="text" readonly="" />
-          </div>
-          <div class="txt-fld">
-            <label for="">数量（小数）</label>
-            <input id="quantity" type="text" />
-          </div>
-          <div class="txt-fld">
-            <label for="">单价（金额）</label>
-            <input id="unit_price"  type="text" />
 
-          </div>
-          <div class="btn-fld">
-          <button type="button" id="itemAddBtn">确定增加</button>
-</div>
+          <form action="" id="itemForm">
+
+              <div class="txt-fld">
+                  <label for="product_id">产品</label>
+                  <select  id="product_id" class="select">
+                      <foreach name="products" item="product">
+                          <option value="{$product.id}" data-unit="{$product.unit}" >{$product.name} </option>
+                      </foreach>
+                  </select>
+
+              </div>
+              <div class="txt-fld">
+                  <label for="product_unit">单位</label>
+                  <input id="product_unit" type="text" readonly="" />
+              </div>
+              <div class="txt-fld">
+                  <label for="quantity">数量（小数）</label>
+                  <input id="quantity" type="text" />
+              </div>
+              <div class="txt-fld">
+                  <label for="unit_price">单价（金额）</label>
+                  <input id="unit_price"  type="text" />
+              </div>
+              <div class="btn-fld">
+                  <button type="button" id="itemAddBtn" style="cursor:pointer">确定增加</button>
+              </div>
           </form>
+      </div>
   </div>
-</div>
+
+
+
 
 <script type="text/javascript">
 
 $(function(){
+
+    //增加单位
+    $("#product_id").change(function(){
+        $("#product_unit").val($('#product_id option:selected').data('unit'));
+    });
+    $("#product_id").change();
+
+
   $('#addItemBtn').leanModal({ top : 200, closeButton: ".modal_close" }); 
   
-  //增加单位
-  $("#product_id").change(function(){
-    $("#product_unit").val($('#product_id option:selected').data('unit'));
-  });
-  $("#product_id").change();
+
   //添加项目
   var total_price = 0.0;
   $("#itemAddBtn").click(function(){
     var quantity = $("#quantity").val();
     var unit_price =$("#unit_price").val();
-    addOneRow($('#product_id option:selected').text(),quantity,unit_price);
-    total_price += quantity*unit_price;
-    $("#price").val(total_price);
+      var product_id = $("#product_id").val();
+      var product_name = $('#product_id option:selected').text();
+      var product_unit = $("#product_unit").val();
+      //console.log(product_unit,quantity,unit_price);
+      dimhat.addItem(product_id,product_name,product_unit,quantity,unit_price);
+      //console.log(dimhat.data());
+      $('#flex').flexAddData(dimhat.data());
+
+      total_price += quantity*unit_price;
+      $("#price").val(total_price);
+      //dimhat.debug();
     $(".modal_close").click();
-    $("#itemForm")[0].reset();
+      //$("#itemForm")[0].reset();
   });
 
-  function addOneRow(product_name,quantity,unit_price){
-    var trStr= '<tr><td>'+product_name+'</td><td>'+quantity+'</td><td>'+unit_price+'</td><td><button>删除</button></td></tr>';
-    $("#itemTable").append(trStr);
-  }
 });
 </script>
 </body>
