@@ -42,7 +42,7 @@ class UserController extends  Controller{
                     //$this->success("登陆成功",U("Sale/index"),5);
                 }
             }else{
-                $this->error("用户名或密码错误",U("User/login"),5);
+                $this->error("用户名或密码错误",U("User/login"),3);
             }
         }
     }

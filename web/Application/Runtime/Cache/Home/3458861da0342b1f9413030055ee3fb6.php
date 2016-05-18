@@ -1,13 +1,13 @@
-<!doctype html>
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/main.css">
-    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/colResizable-1.3.min.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/jquery.twbsPagination.js"></script>
+    <link rel="stylesheet" href="/Public/css/common.css">
+    <link rel="stylesheet" href="/Public/css/main.css">
+    <script type="text/javascript" src="/Public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/Public/js/colResizable-1.3.min.js"></script>
+    <script type="text/javascript" src="/Public/js/common.js"></script>
+    <script type="text/javascript" src="/Public/js/jquery.twbsPagination.js"></script>
 
     <script type="text/javascript">
         $(function(){
@@ -26,7 +26,7 @@
 <div class="container">
     <!--button-->
     <div id="button" class="mt10">
-        <a href="__CONTROLLER__/add">
+        <a href="/index.php/Home/Product/add">
         <input type="button" name="button" class="btn btn82 btn_add" value="新增">
         </a>
         <input type="button" name="button" class="btn btn82 btn_del" value="删除">
@@ -42,11 +42,11 @@
             <div class="box_top"><b class="pl15">搜索</b></div>
             <div class="box_center pt10 pb10">
               <form id="search_form" method="get">
-                  <input type="hidden" name="pageNo" id="pageNo" value="{$query.pageNo|default=1}">
+                  <input type="hidden" name="pageNo" id="pageNo" value="<?php echo ((isset($query["pageNo"]) && ($query["pageNo"] !== ""))?($query["pageNo"]):1); ?>">
               <table class="form_table" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>产品名称</td>
-                  <td><input type="text" name="name" value="{$query.name}" class="input-text lh25" size="10"></td>
+                  <td><input type="text" name="name" value="<?php echo ($query["name"]); ?>" class="input-text lh25" size="10"></td>
                   <td>产品类别</td>
                   <td>
                     <span class="fl">
@@ -54,13 +54,9 @@
                         <div class="select_containers "> 
                         <select name="category_id" class="select">
                             <option value="">全部</option>
-                        <foreach name="categorys" item="category">
-                            <eq name="category.id" value="$query.category_id">
-                                <option value="{$category.id}" selected>{$category.name} </option>
-                            <else/>
-                                <option value="{$category.id}">{$category.name}</option>
-                            </eq>
-                        </foreach>
+                        <?php if(is_array($categorys)): foreach($categorys as $key=>$category): if(($category["id"]) == $query["category_id"]): ?><option value="<?php echo ($category["id"]); ?>" selected><?php echo ($category["name"]); ?> </option>
+                            <?php else: ?>
+                                <option value="<?php echo ($category["id"]); ?>"><?php echo ($category["name"]); ?></option><?php endif; endforeach; endif; ?>
                         </select> 
                         </div> 
                       </div> 
@@ -86,17 +82,15 @@
                     <th width="100">参考价格</th>
                     <th width="100">操作</th>
                 </tr>
-                <foreach name="list" item="vo">
-                 <tr class="tr">
-                    <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
-                    <td>{$vo.name}</td>
-                    <td>{$vo.spec}</td>
-                    <td>{$vo.unit}</td>
-                    <td>{$vo.category_name}</td>
-                    <td>{$vo.price}</td>
-                    <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
-                 </tr>
-                </foreach>
+                <?php if(is_array($list)): foreach($list as $key=>$vo): ?><tr class="tr">
+                    <td class="td_center"><input data-id="<?php echo ($vo["id"]); ?>" name="checkbox" type="checkbox"></td>
+                    <td><?php echo ($vo["name"]); ?></td>
+                    <td><?php echo ($vo["spec"]); ?></td>
+                    <td><?php echo ($vo["unit"]); ?></td>
+                    <td><?php echo ($vo["category_name"]); ?></td>
+                    <td><?php echo ($vo["price"]); ?></td>
+                    <td><a href="/index.php/Home/Product/update/id/<?php echo ($vo["id"]); ?>" class="opa">修改</a></td>
+                 </tr><?php endforeach; endif; ?>
             </table>
             <div class="page mt10">
                 <div class="pagination" id="jqPagination" style="text-align:center;">
@@ -112,13 +106,13 @@
 $(document).ready(function(){
     $(".btn_del").click(function(){
         if(confirm("确定删除吗？")){
-            location = "__CONTROLLER__/del/ids/"+getCheckboxIds();
+            location = "/index.php/Home/Product/del/ids/"+getCheckboxIds();
         }
     });
     //初始化分页
     $('#jqPagination').twbsPagination({
-        totalPages: {$query.totalPages|default=1},
-        startPage: {$query.pageNo|default=1},
+        totalPages: <?php echo ((isset($query["totalPages"]) && ($query["totalPages"] !== ""))?($query["totalPages"]):1); ?>,
+        startPage: <?php echo ((isset($query["pageNo"]) && ($query["pageNo"] !== ""))?($query["pageNo"]):1); ?>,
         visiblePages:7,
         prev:'上一页',
         next:'下一页',
@@ -126,10 +120,9 @@ $(document).ready(function(){
             $('#pageNo').val(page);
             $('#search_form').submit();
         }
-    }).append("<div>第{$query.pageNo|default=1}页，共有{$query.totalPages|default=1}页，{$query.totalRows}条数据</div>");
+    }).append("<div>第<?php echo ((isset($query["pageNo"]) && ($query["pageNo"] !== ""))?($query["pageNo"]):1); ?>页，共有<?php echo ((isset($query["totalPages"]) && ($query["totalPages"] !== ""))?($query["totalPages"]):1); ?>页，<?php echo ($query["totalRows"]); ?>条数据</div>");
 
 });
 </script>
 </body>
 </html>
-  

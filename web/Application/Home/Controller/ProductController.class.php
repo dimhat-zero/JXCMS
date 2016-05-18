@@ -8,7 +8,6 @@
 
 namespace Home\Controller;
 use Home\Model\CategoryModel;
-use Home\Model\Page;
 use Think\Controller;
 
 class ProductController extends Controller{
@@ -90,7 +89,10 @@ class ProductController extends Controller{
         $count = $Product->where($condition)->count();
         //$page = get_page($count);
 
-        $page = new Page($count);//默认取pageNo
+        $page = new \Home\Model\Page($count);//默认取pageNo
+        $query['pageNo']=$page->nowPage;
+        $query['totalPages']=$page->totalPages;
+        $query['totalRows']=$page->totalRows;
         //$page = new \Think\Page($count,$pageSize);
         // 进行分页数据查询
         $result = $Product->where($condition)->limit($page->firstRow,$page->listRows)->select();
@@ -99,9 +101,6 @@ class ProductController extends Controller{
         //增加其他信息
         $query['name']=$name;
         $query['category_id']=$category_id;
-        $query['pageNo']=$page->nowPage;
-        $query['totalPages']=$page->totalPages;
-        $query['totalRows']=$page->totalRows;
         $this->assign('query',$query);
         $this->addCategory();
         $this->display();

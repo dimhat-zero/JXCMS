@@ -1,12 +1,12 @@
-<!doctype html>
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/main.css">
-    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/colResizable-1.3.min.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+    <link rel="stylesheet" href="/Public/css/common.css">
+    <link rel="stylesheet" href="/Public/css/main.css">
+    <script type="text/javascript" src="/Public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/Public/js/colResizable-1.3.min.js"></script>
+    <script type="text/javascript" src="/Public/js/common.js"></script>
 
     <script type="text/javascript">
         $(function(){
@@ -25,7 +25,7 @@
 <div class="container">
 
     <div id="button" class="mt10">
-        <a href="__CONTROLLER__/add">
+        <a href="/index.php/Home/Product/category_add">
         <input type="button" name="button" class="btn btn82 btn_add" value="新增">
         </a>
         <input type="button" name="button" class="btn btn82 btn_del" value="删除">
@@ -38,18 +38,16 @@
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table" style="width:30%;">
                 <tr>
                     <th width="30">#</th>
-                    <th width="100">仓库名称</th>
-                    <th width="200">仓库地址</th>
+                    <th width="100">名称</th>
+                    <th width="200">说明</th>
                     <th width="100">操作</th>
                 </tr>
-                <foreach name="list" item="vo">
-                 <tr class="tr">
-                    <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
-                    <td>{$vo.name}</td>
-                    <td>{$vo.address}</td>
-                     <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
-                 </tr>
-                </foreach>
+                <?php if(is_array($list)): foreach($list as $key=>$vo): ?><tr class="tr">
+                    <td class="td_center"><input data-id="<?php echo ($vo["id"]); ?>" name="checkbox" type="checkbox"></td>
+                    <td><?php echo ($vo["name"]); ?></td>
+                    <td><?php echo ($vo["desc"]); ?></td>
+                     <td><a href="/index.php/Home/Product/category_mod/id/<?php echo ($vo["id"]); ?>" class="opa">修改</a></td>
+                 </tr><?php endforeach; endif; ?>
             </table>
 
         </div>
@@ -61,7 +59,7 @@
 $(document).ready(function(){
     $(".btn_del").click(function(){
         if(confirm("确定删除吗？")){
-            url = "__CONTROLLER__/del/ids/"+getCheckboxIds();
+            url = "/index.php/Home/Product/category_del/ids/"+getCheckboxIds();
             location = url;
         }
     });
@@ -70,4 +68,3 @@ $(document).ready(function(){
 </script>
 </body>
 </html>
-  

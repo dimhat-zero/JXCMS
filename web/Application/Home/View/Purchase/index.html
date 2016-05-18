@@ -20,7 +20,7 @@
 
         });
     </script>
-    <title>Document</title>
+    <title>采购管理</title>
 </head>
 <body>
 <div class="container">
@@ -45,20 +45,37 @@
                   <input type="hidden" name="pageNo" id="pageNo" value="{$query.pageNo|default=1}">
               <table class="form_table" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td>产品名称</td>
-                  <td><input type="text" name="name" value="{$query.name}" class="input-text lh25" size="10"></td>
-                  <td>产品类别</td>
+                  <td>入库仓库</td>
                   <td>
                     <span class="fl">
                       <div class="select_border"> 
                         <div class="select_containers "> 
-                        <select name="category_id" class="select">
+                        <select name="stock_house_id" class="select">
                             <option value="">全部</option>
-                        <foreach name="categorys" item="category">
-                            <eq name="category.id" value="$query.category_id">
-                                <option value="{$category.id}" selected>{$category.name} </option>
+                        <foreach name="stockHouses" item="stockHouse">
+                            <eq name="stockHouse.id" value="$query.stock_house_id">
+                                <option value="{$stockHouse.id}" selected>{$stockHouse.name} </option>
                             <else/>
-                                <option value="{$category.id}">{$category.name}</option>
+                                <option value="{$stockHouse.id}">{$stockHouse.name}</option>
+                            </eq>
+                        </foreach>
+                        </select> 
+                        </div> 
+                      </div> 
+                    </span>
+                  </td>
+                  <td>入库人员</td>
+                  <td>
+                    <span class="fl">
+                      <div class="select_border"> 
+                        <div class="select_containers "> 
+                        <select name="employee_id" class="select">
+                            <option value="">全部</option>
+                        <foreach name="employees" item="employee">
+                            <eq name="employee.id" value="$query.employee_id">
+                                <option value="{$employee.id}" selected>{$employee.name} </option>
+                            <else/>
+                                <option value="{$employee.id}">{$employee.name}</option>
                             </eq>
                         </foreach>
                         </select> 
@@ -74,27 +91,25 @@
         </div>
     </div>
     <!-- list table -->
-    <div id="table" class="mt10" style="width:80%;">
+    <div id="table" class="mt10" style="width:60%;">
         <div class="box span10 oh">
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table">
                 <tr>
                     <th width="30">#</th>
-                    <th width="100">产品名称</th>
-                    <th width="100">规格型号</th>
-                    <th width="100">产品单位</th>
-                    <th width="100">产品类别</th>
-                    <th width="100">参考价格</th>
+                    <th width="100">入库仓库</th>
+                    <th width="100">采购人员</th>
+                    <th width="100">采购时间</th>
+                    <th width="100">总价格</th>
                     <th width="100">操作</th>
                 </tr>
                 <foreach name="list" item="vo">
                  <tr class="tr">
                     <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
-                    <td>{$vo.name}</td>
-                    <td>{$vo.spec}</td>
-                    <td>{$vo.unit}</td>
-                    <td>{$vo.category_name}</td>
+                    <td>{$vo.stock_house_name}</td>
+                    <td>{$vo.employee_name}</td>
+                    <td>{$vo.purchase_date}</td>
                     <td>{$vo.price}</td>
-                    <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
+                    <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">查看详情</a></td>
                  </tr>
                 </foreach>
             </table>

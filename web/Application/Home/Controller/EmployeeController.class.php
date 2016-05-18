@@ -7,18 +7,23 @@ use Think\Controller;
 class EmployeeController extends Controller{
 	
 	public function index(){
-		$this->assign("list",M('Employee')->select());
+		$condition['type']=1;//员工 0是老板
+		$condition['status']=1;//可用，非离职
+		$this->assign("list",M('Employee')->where($condition)->select());
 		$this->display();
 	}
 
 	public function add(){
 		if(IS_GET){
-			$this->display();
+			$this->display('edit');
 		}else if(IS_POST){
-			$Employee = M('Employee');
-			$Employee->create();
+			$Employee = D('Employee');
+			if(!$Employee->create()){
+				$this->error($Employee->getError());
+			}
+			
 			$Employee->add();
-			$this->succes("新增成功！");
+			$this->success("新增成功！","index");
 		}
 
 	}
@@ -30,12 +35,14 @@ class EmployeeController extends Controller{
 	public function update($id){
 		if(IS_GET){
 			$this->assign('vo',M('Employee')->find($id));
-			$this->display();
+			$this->display('edit');
 		}else if(IS_POST){
-			$Employee = M('Employee');
-			$Employee->create();
+			$Employee = D('Employee');
+			if(!$Employee->create()){
+				$this->error($Employee->getError());
+			}
 			$Employee->save();
-			$this->succes("新增成功！");
+			$this->success("修改成功！",U("index"));
 		}
 	}
 

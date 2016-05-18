@@ -28,24 +28,25 @@
         <a href="__CONTROLLER__/add">
         <input type="button" name="button" class="btn btn82 btn_add" value="新增">
         </a>
-        <input type="button" name="button" class="btn btn82 btn_del" value="删除">
-        <input type="button" name="button" class="btn btn82 btn_checked" value="全选">
-        <input type="button" name="button" class="btn btn82 btn_nochecked" value="取消">
     </div>
 
-    <div id="table" class="mt10">
+    <div id="table" class="mt10" style="width:60%;">
         <div class="box span10 oh">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table" style="width:30%;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table">
                 <tr>
                     <th width="30">#</th>
-                    <th width="100">仓库名称</th>
-                    <th width="200">仓库地址</th>
+                    <th width="100">姓名</th>
+                    <th width="100">电话</th>
+                    <th width="100">用户名</th>
+                    <th width="200">地址</th>
                     <th width="100">操作</th>
                 </tr>
                 <foreach name="list" item="vo">
                  <tr class="tr">
                     <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
                     <td>{$vo.name}</td>
+                    <td>{$vo.phone}</td>
+                    <td>{$vo.username}</td>
                     <td>{$vo.address}</td>
                      <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
                  </tr>

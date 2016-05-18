@@ -15,7 +15,8 @@
         <a href="/index.php"><div id="logo" class="fl"></div></a>
         <div id="photo_info" class="fr">
             <div id="photo" class="fl">
-                <a href="#"><img src="__PUBLIC__/images/a.png" alt="" width="60" height="60"></a>
+                <a href="__MODULE__/Employee/update/id/{$Think.session.user.id}" target="right">
+                    <img src="__PUBLIC__/images/a.png" alt="" width="60" height="60"></a>
             </div>
             <div id="base_info" class="fr">
                 <div class="help_info">
@@ -24,7 +25,7 @@
                     <a href="__MODULE__/User/logout" id="out">&nbsp;</a>
                 </div>
                 <div class="info_center">
-                    admin
+                    {$Think.session.user.name}
                     <span id="nt">通知</span><span><a href="#" id="notice">3</a></span>
                 </div>
             </div>
@@ -40,19 +41,19 @@
         <h3>基础信息维护</h3>
         <ul>
             <li><a href="__MODULE__/Employee" target="right">员工管理</a></li>
-            <li><a href="__MODULE__/Stock" target="right">仓库管理</a></li>
+            <li><a href="__MODULE__/StockHouse" target="right">仓库管理</a></li>
             <li><a href="__MODULE__/Product/category" target="right">产品类别管理</a></li>
             <li><a href="__MODULE__/Product" target="right">产品管理</a></li>
         </ul>
-        <h3> 入库管理</h3>
+        <h3>采购入库</h3>
         <ul>
-            <li><a href="__MODULE__/Purchase" target="right">历史入库信息</a></li>
+            <li><a href="__MODULE__/Purchase" target="right">采购单管理</a></li>
             <li><a href="__MODULE__/Purchase/add" target="right">新增入库单</a></li>
         </ul>
 
-        <h3>销售管理</h3>
+        <h3>销售出库</h3>
         <ul>
-            <li><a href="__MODULE__/Sale" target="right">历史销售信息</a></li>
+            <li><a href="__MODULE__/Sale" target="right">销售单管理</a></li>
             <li><a href="__MODULE__/Sale/add" target="right">新增销售单</a></li>
         </ul>
         <h3> 库存管理</h3>

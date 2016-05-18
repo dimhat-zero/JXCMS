@@ -1,0 +1,117 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>类似网易邮箱的半透明信息提示效果(From:网络大本营 Http://www.qqview.com)</title>
+<meta name="author" content="年华@Master8.NET" />
+<style>
+body { background-color:#FFFFFF; margin:0;}
+li,td,div,body {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #333333; }
+</style>
+</head>
+<body>
+<script type="text/JavaScript">//必须body中引用
+var width=300;
+var height=200;
+var bgcolor="#EEEEEE";//半透明窗口背景色DivMid
+var trans=90;
+var body = document.body;
+var bodyWidth = parseInt((body.scrollWidth<body.clientWidth)?body.clientWidth:body.scrollWidth);
+var bodyHeight = parseInt((body.scrollHeight<body.clientHeight)?body.clientHeight:body.scrollHeight);
+var clientWidth=body.clientWidth;
+var clientHeight=body.clientHeight;
+//开始创建DivTop 最上信息层
+var DivTop = document.createElement("div");
+with(DivTop.style)
+{
+display = "none";
+zIndex = 3;
+position = "absolute";
+border = "0px"; 
+}
+DivTop.id = "Div3"; body.appendChild(DivTop);
+DivTop.innerHTML = "<table cellspacing='0' cellpadding='0' style='width:"+width+"px;border:#0051E5 1px solid;background:#FFFFFF;'><tr><td style='background:#0051E5;color:#FFFFFF;font-size:13px;height:18px;'><span style='float:right'><a href='javascript:Close();' style='color:#FFFFFF;text-decoration:none;background:#CC4332;display:block;padding:1px;height:14px;width:14px;font-size:12px;overflow:hidden;'>×</a></span> 信 息 提 示</td></tr><tr><td style='line-height:180%;padding:2px;'> 类似网易邮箱的半透明信息提示效果<br /> <a href='http://master8.net'>Master8.NET</a></td></tr></table>";
+
+//开始创建DivMid 中间半透明层
+var DivMid = document.createElement("div");
+with(DivMid.style)
+{
+display = "none";
+zIndex = 2;
+position = "absolute";
+height = "100%";
+width = "100%";
+top = 0;
+left = 0;
+border = "0px";
+backgroundColor = bgcolor;
+}
+DivMid.id = "Div2";
+body.appendChild(DivMid);
+
+function $(Id) { return document.getElementById(Id); }
+function isIE()
+{
+return (document.all && window.ActiveXObject && !window.opera) ? true : false;
+}
+
+function center(win)//将主窗口置于网页正中
+{
+var s = parseInt(body.scrollTop + clientHeight/2 - height/2);
+win.style.top = (s<body.scrollHeight-height)?s:body.scrollHeight;
+var s = parseInt(body.scrollLeft + clientWidth/2 - width/2);
+win.style.left = (s<body.scrollWidth-width)?s:body.scrollWidth;
+}
+
+function Open(){
+
+with(body.style)//完全锁定背景层
+{
+width = clientWidth;
+height = clientHeight;
+overflow = "hidden";
+}
+with($('Div2').style)
+{
+width = bodyWidth;
+height = bodyHeight;
+overflow = "hidden";
+display = "";
+if (isIE()){
+filter = " Alpha(Opacity="+trans+")";
+}else{
+opacity = trans/100;
+}
+
+}
+with($('Div3').style)
+{
+display = ""; 
+}
+center($('Div3'));
+
+}
+
+function Close(){
+with(body.style)
+{
+width = bodyWidth;
+height = bodyHeight;
+overflow = "auto";
+}
+with($('Div2').style)
+{
+display = "none";
+}
+with($('Div3').style)
+{
+display = "none"; 
+}
+
+}
+Open();
+</script>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<p align="center"><a href="javascript:Open()">Click To Open</a></p>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p align="center"><a href="javascript:Open()">Click To Open</a></p> 来源: 网络大本营 Http://www.qqview.com
+</body>
+</html>

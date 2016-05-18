@@ -1,8 +1,8 @@
 <?php
 
-namespace Home\Controller
+namespace Home\Controller;
 
-use Think\Controller
+use Think\Controller;
 
 class StockHouseController extends Controller{
 	
@@ -14,12 +14,12 @@ class StockHouseController extends Controller{
 
 	public function add(){
 		if(IS_GET){
-			$this->display();
+			$this->display('edit');
 		}else if(IS_POST){
 			$stockHouse = D('StockHouse');
 			if($stockHouse->create()){
 				$stockHouse->add();
-				$this->rediect("添加仓库成功","list");
+				$this->redirect("index");
 			}else{
 				$this->error($category->getError());
 			}
@@ -30,12 +30,12 @@ class StockHouseController extends Controller{
 		if(IS_GET){
 			$result = D('StockHouse')->find($id);
 			$this->assign('stockHouse',$result);
-			$this->display();
+			$this->display('edit');
 		}else if(IS_POST){
 			$stockHouse = D('StockHouse');
 			if($stockHouse->create()){
 				$stockHouse->save();
-				$this->rediect('修改成功！',"index");
+				$this->redirect("index");
 			}else{
 				$this->error($stockHouse->getError());
 			}
@@ -44,6 +44,6 @@ class StockHouseController extends Controller{
 
 	public function del($ids){
 		M('StockHouse')->delete($ids);
-		$this->rediect("删除成功！","index");
+		$this->redirect("index");
 	}
 }
