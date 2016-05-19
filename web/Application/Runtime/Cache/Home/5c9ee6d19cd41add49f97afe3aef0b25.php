@@ -29,7 +29,7 @@
 					<div id="btn_area">
 						<input type="submit" name="submit" id="sub_btn" value="登&nbsp;&nbsp;录">&nbsp;&nbsp;
 						<input type="text" class="verify" name="verify">
-						<img src="/index.php/Home/User/verifyImg" alt="" width="120" height="40">
+						<img src="/index.php/Home/User/verifyImg" alt="验证码" width="120" height="40" onclick="this.src=this.src">
 					</div>
 				</form>
 			</div>

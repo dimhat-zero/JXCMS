@@ -1,4 +1,4 @@
-
+//delete , it no use
 var dimhat = (function ($, dimhat){
     var _array = new Array();//项目数组
     //声明项目对象
@@ -56,7 +56,7 @@ var dimhat = (function ($, dimhat){
         $.each(_array,function(i,item){
             var row = new Object();
             row.id = i;
-            row.cell = [item.product_id,item.product_name,item.product_unit,item.quantity,item.unit_price];
+            row.cell = [i+1,item.product_name,item.product_unit,item.quantity,item.unit_price];
             rows.push(row);
         });
         var result = new Object();

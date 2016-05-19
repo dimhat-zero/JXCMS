@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="JS代码,表格,网格,Grid,表格数据,jQuery插件,JS图片特效,JS广告代码，JS常用代码" />
+<meta name="description" content="超强的jQuery网格插件lexigrid，更多表格,网格,Grid,表格数据,jQuery插件代码请访问JS代码频道。" />
+<title>超强的jQuery网格插件lexigrid_</title>
+<link rel="stylesheet" href="styleII.css" />
+<link rel="stylesheet" type="text/css" href="css/flexigrid/flexigrid.css">
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="flexigrid.js"></script>
+</head>
+
+<body>
+
+<img src="flash.png" alt="Flexigrid" width="960" height="483" usemap="#Map" style="visibility:hidden" onload="$(this).css({visibility:'visible',display:'none'}).fadeIn('slow');" title="Flexigrid" border="0" />
+<map name="Map" id="Map"><area shape="rect" coords="671,29,853,72" href="flexigrid.zip" alt="Download" />
+</map>
+
+
+
+<h1 class="title" style="display: none"><strong>Flexigrid</strong> for jQuery (beta) <span style="font-size:12px">by Paulo P. Marinas</span></h1>
+
+<div class="update" style="height: auto">
+<b class="top">What is it?</b>
+
+<p>Lightweight but rich data grid with resizable columns and a scrolling data to match the headers, plus an ability to connect to an xml based data source using Ajax to load the content. </p>
+<p>Similar in concept with the Ext Grid only its pure jQuery love, which makes it light weight and follows the jQuery mantra of running with the least amount of configuration.</p>
+<p><b>Features</b></p>
+
+<ul type="square">
+<li>Resizable columns</li>
+<li>Resizable height and width</li>
+<li>Sortable column headers</li>
+<li>Cool theme</li>
+<li>Can convert an ordinary table</li>
+<li>Ability to connect to an ajax data source (XML and JSON[new])</li>
+<li>Paging</li><li>Show/hide columns</li>
+<li>Toolbar (new)</li>
+<li>Search (new)</li>
+<li>Accessible API</li>
+<li>Many more</li>
+</ul>
+<p>I'm planning to add an Editable and Resortable rows feature, as well as other cool GUI features. </p>
+<p>One of my main goal for the plugin is ultimately to keep it lightweight, maybe under 20k when compressed. Because otherwise you should probably stick with Ext Grid or YUI data table.</p>
+</div>
+<br />
+<br />
+<div class="update" style="height: auto">
+<b class="top">What's New Version 1.0b3</b>
+    <ul type="square">
+    	<li>Fixed paging problem on multiple instances</li>
+    	<li>Mootools and Prototype noConflict() compatibility problems fixed</li>
+    	<li>New onError event on ajax interaction, (it will pass what the server said in a variable called data), allowing you to handle server problems</li>
+    	<li>New $().flexAddData method, allows you to directly add new data to the grid using your own data source.</li>
+    	<li>New preProcess API, allows you to modify or process data sent by server before passing it to Flexigrid, allowing you to use your own JSON format for example.</li>
+    	<li>Single Rows Select just use { singleSelect: true } in the options</li>
+        <li>There are other bugs that were reported and fixed as well, but forgot what they were :-)</li>
+        <li>IE6 Support fixes</li>
+        <li>CSS Bug fixes</li>
+    </ul>
+<b class="top">What's New Version 1.0b2</b>
+    <ul type="square">
+    	<li>Resizable Width</li>
+        <li>JSON Support</li>
+        <li>Toolbar</li>
+        <li>Table Toggle Button</li>
+        <li>Show/Hide Columns control have been move to the column headers (try it by mouseovering a header and clicking a black triangle on the right);</li>
+        <li>Quick Search</li>
+        <li>IE6 Support fixes</li>
+        <li>CSS Bug fixes</li>
+    </ul>
+
+</div>
+<br />
+    <p>
+    	As I still don't have time to build a full pledge support or community site, which I'm planning to, these are usually the questions I receive:
+    </p>
+    <br />
+
+<div class="update">
+<b class="top">Files you need</b>
+<ul type="square">
+<li>Of course you need the <a href="http://www.jquery.com">jQuery script</a></li>
+<li><a href="http://www.htmldrive.net/items/download/300">and the FlexiGrid Plugin Pack(32K)</a> which includes the js, css, and images you need to run the Flexigrid</li>
+</ul>
+</div>
+<br />
+<div class="update">
+<b class="top">How to use</b>
+<p>
+	My appologies, but no time to make a thorough guide on how to use it yet, but I did make some examples below.
+</p>
+<p>
+	For the Third example you need to generate an 
+    XML file with a very specific format, just use the same format to generate an XML file using any backend programming language.
+</p>
+<p>
+	<a href="post.php" target="_blank">The sample xml file is here</a>
+</p>
+<p>
+	And due to consistent public demand. My sample PHP code for post.php. Please don't forget to change hostname, username, password and dbname.
+
+</p>
+<p>
+	<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample PHP code for XML</a>
+</p>
+
+<div class="code">
+
+<p>function runSQL($rsql) {</p>
+<p>$connect = mysql_connect($hostname,$username,$password) or die (&quot;Error: could not connect to database&quot;);<br />
+  $db = mysql_select_db($dbname);</p>
+
+<p>$result = mysql_query($rsql) or die ('test');<br />
+  return $result;<br />
+  mysql_close($connect);<br />
+  }</p>
+<p>function countRec($fname,$tname) {<br />
+  $sql = &quot;SELECT count($fname) FROM $tname &quot;;<br />
+
+  $result = runSQL($sql);<br />
+  while ($row = mysql_fetch_array($result)) {<br />
+  return $row[0];<br />
+  } <br />
+  }<br />
+  $page = $_POST['page'];<br />
+
+  $rp = $_POST['rp'];<br />
+  $sortname = $_POST['sortname'];<br />
+  $sortorder = $_POST['sortorder'];</p>
+<p>if (!$sortname) $sortname = 'name';<br />
+  if (!$sortorder) $sortorder = 'desc';</p>
+<p>$sort = &quot;ORDER BY $sortname $sortorder&quot;;</p>
+
+<p>if (!$page) $page = 1;<br />
+  if (!$rp) $rp = 10;</p>
+<p>$start = (($page-1) * $rp);</p>
+<p>$limit = &quot;LIMIT $start, $rp&quot;;</p>
+<p>$sql = &quot;SELECT iso,name,printable_name,iso3,numcode FROM country $sort $limit&quot;;<br />
+  $result = runSQL($sql);</p>
+
+<p>$total = countRec('iso','country');</p>
+<p>header(&quot;Expires: Mon, 26 Jul 1997 05:00:00 GMT&quot; ); <br />
+  header(&quot;Last-Modified: &quot; . gmdate( &quot;D, d M Y H:i:s&quot; ) . &quot;GMT&quot; ); <br />
+
+  header(&quot;Cache-Control: no-cache, must-revalidate&quot; ); <br />
+  header(&quot;Pragma: no-cache&quot; );<br />
+  header(&quot;Content-type: text/xml&quot;);<br />
+
+  $xml = &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;\n&quot;;<br />
+  $xml .= &quot;&lt;rows&gt;&quot;;<br />
+  $xml .= &quot;&lt;page&gt;$page&lt;/page&gt;&quot;;<br />
+
+  $xml .= &quot;&lt;total&gt;$total&lt;/total&gt;&quot;;<br />
+  while ($row = mysql_fetch_array($result)) {<br />
+  $xml .= &quot;&lt;row id='&quot;.$row['iso'].&quot;'&gt;&quot;;<br />
+
+  $xml .= &quot;&lt;cell&gt;&lt;![CDATA[&quot;.$row['iso'].&quot;]]&gt;&lt;/cell&gt;&quot;; <br />
+  $xml .= &quot;&lt;cell&gt;&lt;![CDATA[&quot;.utf8_encode($row['name']).&quot;]]&gt;&lt;/cell&gt;&quot;;<br />
+
+  $xml .= &quot;&lt;cell&gt;&lt;![CDATA[&quot;.utf8_encode($row['printable_name']).&quot;]]&gt;&lt;/cell&gt;&quot;; <br />
+  $xml .= &quot;&lt;cell&gt;&lt;![CDATA[&quot;.utf8_encode($row['iso3']).&quot;]]&gt;&lt;/cell&gt;&quot;; <br />
+
+  $xml .= &quot;&lt;cell&gt;&lt;![CDATA[&quot;.utf8_encode($row['numcode']).&quot;]]&gt;&lt;/cell&gt;&quot;; <br />
+  $xml .= &quot;&lt;/row&gt;&quot;; <br />
+  }</p>
+
+<p>$xml .= &quot;&lt;/rows&gt;&quot;;<br />
+  echo $xml;</p>
+  
+</div>  
+
+<p>
+	<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample PHP code for JSON</a>
+</p>
+<div class="code">
+
+<p>function runSQL($rsql) {</p>
+<p>$connect = mysql_connect($hostname,$username,$password) or die (&quot;Error: could not connect to database&quot;);<br />
+  $db = mysql_select_db($dbname);</p>
+
+<p>$result = mysql_query($rsql) or die ('test');<br />
+  return $result;<br />
+  mysql_close($connect);<br />
+  }</p>
+<p>function countRec($fname,$tname) {<br />
+  $sql = &quot;SELECT count($fname) FROM $tname &quot;;<br />
+
+  $result = runSQL($sql);<br />
+  while ($row = mysql_fetch_array($result)) {<br />
+  return $row[0];<br />
+  } <br />
+  }<br />
+  $page = $_POST['page'];<br />
+
+  $rp = $_POST['rp'];<br />
+  $sortname = $_POST['sortname'];<br />
+  $sortorder = $_POST['sortorder'];</p>
+<p>if (!$sortname) $sortname = 'name';<br />
+  if (!$sortorder) $sortorder = 'desc';</p>
+<p>$sort = &quot;ORDER BY $sortname $sortorder&quot;;</p>
+
+<p>if (!$page) $page = 1;<br />
+  if (!$rp) $rp = 10;</p>
+<p>$start = (($page-1) * $rp);</p>
+<p>$limit = &quot;LIMIT $start, $rp&quot;;</p>
+<p>$sql = &quot;SELECT iso,name,printable_name,iso3,numcode FROM country $sort $limit&quot;;<br />
+  $result = runSQL($sql);</p>
+
+<p>$total = countRec('iso','country');</p>
+<p>header(&quot;Expires: Mon, 26 Jul 1997 05:00:00 GMT&quot; ); <br />
+  header(&quot;Last-Modified: &quot; . gmdate( &quot;D, d M Y H:i:s&quot; ) . &quot;GMT&quot; ); <br />
+  header(&quot;Cache-Control: no-cache, must-revalidate&quot; ); <br />
+  header(&quot;Pragma: no-cache&quot; );<br />
+  header(&quot;Content-type: text/x-json&quot;);<br />
+  $json = &quot;&quot;;<br />
+  $json .= &quot;{\n&quot;;<br />
+  $json .= &quot;page: $page,\n&quot;;<br />
+  $json .= &quot;total: $total,\n&quot;;<br />
+  $json .= &quot;rows: [&quot;;<br />
+  $rc = false;<br />
+  while ($row = mysql_fetch_array($result)) {<br />
+if ($rc) $json .= &quot;,&quot;;<br />
+$json .= &quot;\n{&quot;;<br />
+$json .= &quot;id:'&quot;.$row['iso'].&quot;',&quot;;<br />
+$json .= &quot;cell:['&quot;.$row['iso'].&quot;'&quot;;<br />
+$json .= &quot;,'&quot;.addslashes($row['name']).&quot;'&quot;;<br />
+$json .= &quot;,'&quot;.addslashes($row['printable_name']).&quot;'&quot;;<br />
+$json .= &quot;,'&quot;.addslashes($row['iso3']).&quot;'&quot;;<br />
+$json .= &quot;,'&quot;.addslashes($row['numcode']).&quot;']&quot;;<br />
+$json .= &quot;}&quot;;<br />
+$rc = true; <br />
+}<br />
+$json .= &quot;]\n&quot;;<br />
+$json .= &quot;}&quot;;<br />
+echo $json;</p>
+
+</div>
+
+</div>
+
+<br />
+
+<b>Example 1</b>
+<p>
+The most basic example with the zero configuration, with a table converted into flexigrid 
+(<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample code</a>)
+</p>
+<div class="code">
+	<pre>$('.flexme').flexigrid();</pre>
+</div>
+<table class="flexme1">
+	<thead>
+    		<tr>
+            	<th width="100">Col 1</th>
+            	<th width="100">Col 2</th>
+            	<th width="100">Col 3 is a long header name</th>
+            	<th width="300">Col 4</th>
+            </tr>
+    </thead>
+    <tbody>
+    		<tr>
+            	<td>This is data 1 with overflowing content</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+            
+    </tbody>
+</table>
+<br />
+
+<b>Example 2</b>
+<p>
+Table converted into flexigrid with height, and width set to auto, stripes remove.
+(<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample code</a>)
+</p>
+<div class="code">
+	<pre>$('.flexme2').flexigrid({height:'auto',striped:false});</pre>
+</div>
+<table class="flexme2">
+	<thead>
+    		<tr>
+            	<th width="100">Col 1</th>
+            	<th width="100">Col 2</th>
+            	<th width="100">Col 3 is a long header name</th>
+            	<th width="300">Col 4</th>
+            </tr>
+    </thead>
+    <tbody>
+    		<tr>
+            	<td>This is data 1 with overflowing content</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    		<tr>
+            	<td>This is data 1</td>
+            	<td>This is data 2</td>
+            	<td>This is data 3</td>
+            	<td>This is data 4</td>
+            </tr>
+    </tbody>
+</table>
+<br />
+
+<b>Example 3</b>
+<p>
+Flexigrid with a dynamic data, paging, search, toolbar, and connected to an JSON file.
+(<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample code</a>)
+</p>
+<div class="code">
+
+	<style>
+        
+        .flexigrid div.fbutton .add
+            {
+                background: url(css/images/add.png) no-repeat center left;
+            }	
+    
+        .flexigrid div.fbutton .delete
+            {
+                background: url(css/images/close.png) no-repeat center left;
+            }	
+    
+    </style>
+
+
+	<pre>
+			$("#flex1").flexigrid
+			(
+			{
+			url: 'post2.php',
+			dataType: 'json',
+			colModel : [
+				{display: 'ISO', name : 'iso', width : 40, sortable : true, align: 'center'},
+				{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
+				{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
+				{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
+				{display: 'Number Code', name : 'numcode', width : 80, sortable : true, align: 'right'}
+				],
+			buttons : [
+				{name: 'Add', bclass: 'add', onpress : test},
+				{name: 'Delete', bclass: 'delete', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "iso",
+			sortorder: "asc",
+			usepager: true,
+			title: 'Countries',
+			useRp: true,
+			rp: 15,
+			showTableToggleBtn: true,
+			width: 700,
+			height: 200
+			}
+			);   
+	</pre>
+</div>
+
+<style>
+	
+	.flexigrid div.fbutton .add
+		{
+			background: url(css/images/add.png) no-repeat center left;
+		}	
+
+	.flexigrid div.fbutton .delete
+		{
+			background: url(css/images/close.png) no-repeat center left;
+		}	
+
+</style>
+
+
+<table id="flex1" style="display:none"></table>
+
+
+<script type="text/javascript">
+
+
+
+			$('.flexme1').flexigrid();
+			$('.flexme2').flexigrid({height:'auto',striped:false});
+
+			$("#flex1").flexigrid
+			(
+			{
+			url: 'post2.php',
+			dataType: 'json',
+			colModel : [
+				{display: 'ISO', name : 'iso', width : 40, sortable : true, align: 'center'},
+				{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
+				{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
+				{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
+				{display: 'Number Code', name : 'numcode', width : 80, sortable : true, align: 'right'}
+				],
+			buttons : [
+				{name: 'Add', bclass: 'add', onpress : test},
+				{name: 'Delete', bclass: 'delete', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "iso",
+			sortorder: "asc",
+			usepager: true,
+			title: 'Countries',
+			useRp: true,
+			rp: 15,
+			showTableToggleBtn: true,
+			width: 700,
+			height: 200
+			}
+			);
+			
+			function test(com,grid)
+			{
+				if (com=='Delete')
+					{
+						confirm('Delete ' + $('.trSelected',grid).length + ' items?')
+					}
+				else if (com=='Add')
+					{
+						alert('Add New Item');
+					}			
+			}
+
+			$("#flex2").flexigrid
+			(
+			{
+			url: 'post2.php',
+			dataType: 'json',
+			colModel : [
+				{display: 'ISO', name : 'iso', width : 40, sortable : true, align: 'center'},
+				{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
+				{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
+				{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
+				{display: 'Number Code', name : 'numcode', width : 80, sortable : true, align: 'right'}
+				],
+			buttons : [
+				{name: 'Add', bclass: 'add', onpress : test},
+				{name: 'Delete', bclass: 'delete', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "iso",
+			sortorder: "asc",
+			usepager: true,
+			title: 'Countries',
+			useRp: true,
+			rp: 15,
+			showTableToggleBtn: true,
+			width: 700,
+			height: 200
+			}
+			);
+
+		$('b.top').click
+		(
+			function ()
+				{
+					$(this).parent().toggleClass('fh');
+				}
+		);
+	
+</script>
+
+
+<div style="text-align:center; clear:both; margin:5px auto">
+<p>代码整理：<a href="http://www.jb51.net/" target="_blank">脚本之家</a>　更多相关效果，请到脚本之家 <a href="http://www.jb51.net/jiaoben/guanggao1.html" target="_blank">脚本下载</a>栏目</p>
+      <p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+      <p><a href="http://sc.jb51.net" target="_blank">脚本之家素材中心</a>整理。</p>
+  <p><script src="/js/js-preview-728x90.js"></script><br /><br /><br /><center><script src="/js/tj.js"></script></center></p>
+</div>
+</body>
+</html>

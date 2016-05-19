@@ -100,7 +100,7 @@
                     <td><?php echo ($vo["employee_name"]); ?></td>
                     <td><?php echo ($vo["purchase_date"]); ?></td>
                     <td><?php echo ($vo["price"]); ?></td>
-                    <td><a href="/index.php/Home/Purchase/update/id/<?php echo ($vo["id"]); ?>" class="opa">查看详情</a></td>
+                    <td><a href="/index.php/Home/Purchase/detail/id/<?php echo ($vo["id"]); ?>" class="opa">查看详情</a></td>
                  </tr><?php endforeach; endif; ?>
             </table>
             <div class="page mt10">

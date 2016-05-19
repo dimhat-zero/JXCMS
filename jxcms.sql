@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : php
+Source Server         : 本地mysql
 Source Server Version : 50621
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : jxcms
 
 Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2016-05-18 19:09:48
+Date: 2016-05-19 19:41:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,13 +49,18 @@ CREATE TABLE `employee` (
   `id_card` varchar(50) DEFAULT NULL,
   `type` int(11) NOT NULL DEFAULT '1' COMMENT '1表示普通员工，0表示管理员',
   `status` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `stock_house_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `stock_id` (`stock_house_id`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`stock_house_id`) REFERENCES `stock_house` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of employee
 -- ----------------------------
-INSERT INTO `employee` VALUES ('1', '老板', null, null, 'admin', '123456', null, '0', '1');
+INSERT INTO `employee` VALUES ('1', '老板', null, null, 'admin', '123456', null, '0', '1', null);
+INSERT INTO `employee` VALUES ('2', '销售员小王', '', '', 'wang', '123456', '', '1', '1', null);
+INSERT INTO `employee` VALUES ('3', '销售员小李', '', '', 'xiaoli', '123456', '', '1', '1', null);
 
 -- ----------------------------
 -- Table structure for product
@@ -206,11 +211,12 @@ CREATE TABLE `purchase` (
   KEY `employee_id` (`employee_id`),
   CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`stock_house_id`) REFERENCES `stock_house` (`id`),
   CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of purchase
 -- ----------------------------
+INSERT INTO `purchase` VALUES ('11', '1', '2016-05-19 16:34:38', '2', '14.50');
 
 -- ----------------------------
 -- Table structure for purchase_item
@@ -218,20 +224,25 @@ CREATE TABLE `purchase` (
 DROP TABLE IF EXISTS `purchase_item`;
 CREATE TABLE `purchase_item` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `purchase_id` bigint(20) NOT NULL COMMENT '入库单号',
+  `purchase_id` bigint(20) DEFAULT NULL COMMENT '入库单号',
   `product_id` bigint(20) NOT NULL COMMENT '产品id',
   `quantity` double(10,2) NOT NULL COMMENT '数量',
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '单价',
+  `employee_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `enter_stock_id` (`purchase_id`),
   KEY `product_id` (`product_id`),
+  KEY `employee_id` (`employee_id`),
   CONSTRAINT `purchase_item_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchase` (`id`),
-  CONSTRAINT `purchase_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `purchase_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `purchase_item_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of purchase_item
 -- ----------------------------
+INSERT INTO `purchase_item` VALUES ('16', '11', '1', '3.00', '4.00', '1');
+INSERT INTO `purchase_item` VALUES ('17', '11', '5', '2.00', '1.30', '1');
 
 -- ----------------------------
 -- Table structure for sale
@@ -240,7 +251,7 @@ DROP TABLE IF EXISTS `sale`;
 CREATE TABLE `sale` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `employee_id` bigint(20) NOT NULL,
-  `enter_date` datetime NOT NULL,
+  `sale_date` datetime NOT NULL,
   `stock_house_id` bigint(20) NOT NULL,
   `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '总价格（成本）',
   PRIMARY KEY (`id`),
@@ -248,11 +259,12 @@ CREATE TABLE `sale` (
   KEY `employee_id` (`employee_id`),
   CONSTRAINT `sale_ibfk_1` FOREIGN KEY (`stock_house_id`) REFERENCES `stock_house` (`id`),
   CONSTRAINT `sale_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sale
 -- ----------------------------
+INSERT INTO `sale` VALUES ('5', '1', '2016-05-19 19:06:36', '1', '165.00');
 
 -- ----------------------------
 -- Table structure for sale_item
@@ -260,20 +272,25 @@ CREATE TABLE `sale` (
 DROP TABLE IF EXISTS `sale_item`;
 CREATE TABLE `sale_item` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `sale_id` bigint(20) NOT NULL COMMENT '销售单号',
+  `sale_id` bigint(20) DEFAULT NULL COMMENT '销售单号',
   `product_id` bigint(20) NOT NULL COMMENT '产品id',
   `quantity` double(10,2) NOT NULL COMMENT '数量',
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '单价',
+  `employee_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `sale_id` (`sale_id`),
   KEY `product_id` (`product_id`),
+  KEY `employee_id` (`employee_id`),
   CONSTRAINT `sale_item_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `sale` (`id`),
-  CONSTRAINT `sale_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `sale_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `sale_item_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sale_item
 -- ----------------------------
+INSERT INTO `sale_item` VALUES ('5', '5', '5', '22.00', '4.00', '1');
+INSERT INTO `sale_item` VALUES ('6', '5', '6', '10.00', '8.00', '1');
 
 -- ----------------------------
 -- Table structure for stock_house
@@ -284,11 +301,14 @@ CREATE TABLE `stock_house` (
   `name` varchar(50) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stock_house
 -- ----------------------------
+INSERT INTO `stock_house` VALUES ('1', '北京仓库', '北京朝阳xx街158号');
+INSERT INTO `stock_house` VALUES ('2', '杭州仓库', '杭州滨江区xx');
+INSERT INTO `stock_house` VALUES ('3', '江阴仓库', 'smd');
 
 -- ----------------------------
 -- Table structure for stock_pile
@@ -304,8 +324,21 @@ CREATE TABLE `stock_pile` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `stock_pile_ibfk_1` FOREIGN KEY (`stock_house_id`) REFERENCES `stock_house` (`id`),
   CONSTRAINT `stock_pile_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stock_pile
 -- ----------------------------
+INSERT INTO `stock_pile` VALUES ('11', '2', '1', '3.00');
+INSERT INTO `stock_pile` VALUES ('12', '1', '5', '11.00');
+INSERT INTO `stock_pile` VALUES ('13', '1', '6', '-10.00');
+
+-- ----------------------------
+-- View structure for product_view
+-- ----------------------------
+DROP VIEW IF EXISTS `product_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `product_view` AS SELECT
+	p.*, c.`name` AS category_name
+FROM
+	product p
+LEFT JOIN category c ON c.id = p.category_id ;

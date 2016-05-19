@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/main.css">
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/colResizable-1.3.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.twbsPagination.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $(".list_table").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                minWidth:30
+            });
+
+        });
+    </script>
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+    <!--button-->
+    <div id="button" class="mt10">
+        <a href="__CONTROLLER__/add">
+        <input type="button" name="button" class="btn btn82 btn_add" value="新增">
+        </a>
+        <input type="button" name="button" class="btn btn82 btn_del" value="删除">
+        <input type="button" name="button" class="btn btn82 btn_checked" value="全选">
+        <input type="button" name="button" class="btn btn82 btn_nochecked" value="取消">
+        <input type="button" name="button" class="btn btn82 btn_export" value="导出">
+        <input type="button" name="button" class="btn btn82 btn_search" value="查询">
+    </div>
+    <!--search bar-->
+    <div id="search_bar" class="mt10">
+       <div class="box">
+          <div class="box_border">
+            <div class="box_top"><b class="pl15">搜索</b></div>
+            <div class="box_center pt10 pb10">
+              <form id="search_form" method="get">
+                  <input type="hidden" name="pageNo" id="pageNo" value="{$query.pageNo|default=1}">
+              <table class="form_table" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>产品名称</td>
+                  <td><input type="text" name="name" value="{$query.name}" class="input-text lh25" size="10"></td>
+                  <td>产品类别</td>
+                  <td>
+                    <span class="fl">
+                      <div class="select_border"> 
+                        <div class="select_containers "> 
+                        <select name="category_id" class="select">
+                            <option value="">全部</option>
+                        <foreach name="categorys" item="category">
+                            <eq name="category.id" value="$query.category_id">
+                                <option value="{$category.id}" selected>{$category.name} </option>
+                            <else/>
+                                <option value="{$category.id}">{$category.name}</option>
+                            </eq>
+                        </foreach>
+                        </select> 
+                        </div> 
+                      </div> 
+                    </span>
+                  </td>
+                  <td>所属仓库</td>
+                  <td>
+                    <span class="fl">
+                      <div class="select_border"> 
+                        <div class="select_containers "> 
+                        <select name="stock_house_id" class="select">
+                            <option value="">全部</option>
+                        <foreach name="stockHouses" item="stockHouse">
+                            <eq name="stockHouse.id" value="$query.stock_house_id">
+                                <option value="{$stockHouse.id}" selected>{$stockHouse.name} </option>
+                            <else/>
+                                <option value="{$stockHouse.id}">{$stockHouse.name}</option>
+                            </eq>
+                        </foreach>
+                        </select> 
+                        </div> 
+                      </div> 
+                    </span>
+                  </td>
+                </tr>
+              </table>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- list table -->
+    <div id="table" class="mt10" style="width:80%;">
+        <div class="box span10 oh">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table">
+                <tr>
+                    <th width="30">#</th>
+                    <th width="100">仓库名称</th>
+                    <th width="100">产品名称</th>
+                    <th width="100">规格</th>
+                    <th width="100">产品类别</th>
+                    <th width="100">数量</th>
+                    <th width="100">操作</th>
+                </tr>
+                <foreach name="list" item="vo">
+                 <tr class="tr">
+                    <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
+                    <td>{$vo.stock_house_name}</td>
+                    <td>{$vo.product_name}</td>
+                    <td>{$vo.product_spec}</td>
+                    <td>{$vo.category_name}</td>
+                    <td>{$vo.quantity} {$vo.product_unit}</td>
+                    <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
+                 </tr>
+                </foreach>
+            </table>
+            <div class="page mt10">
+                <div class="pagination" id="jqPagination" style="text-align:center;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".btn_del").click(function(){
+        if(confirm("确定删除吗？")){
+            location = "__CONTROLLER__/del/ids/"+getCheckboxIds();
+        }
+    });
+    //初始化分页
+    $('#jqPagination').twbsPagination({
+        totalPages: {$query.totalPages|default=1},
+        startPage: {$query.pageNo|default=1},
+        visiblePages:7,
+        prev:'上一页',
+        next:'下一页',
+        onPageClick: function (event, page) {
+            $('#pageNo').val(page);
+            $('#search_form').submit();
+        }
+    }).append("<div>第{$query.pageNo|default=1}页，共有{$query.totalPages|default=1}页，{$query.totalRows}条数据</div>");
+
+});
+</script>
+</body>
+</html>
+  

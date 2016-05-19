@@ -102,13 +102,13 @@ class ProductController extends Controller{
         $query['name']=$name;
         $query['category_id']=$category_id;
         $this->assign('query',$query);
-        $this->addCategory();
+        $this->assign('categorys',M('Category')->select());
         $this->display();
     }
 
     public function add(){
         if(IS_GET){
-            $this->addCategory();
+            $this->assign('categorys',M('Category')->select());
             $this->display('edit');
         }else if(IS_POST){
             $product = D("Product");
@@ -131,7 +131,7 @@ class ProductController extends Controller{
         if(IS_GET){
             $obj = M("Product")->find($id);
             if($obj){
-                $this->addCategory();
+                $this->assign('categorys',M('Category')->select());
                 $this->assign("product",$obj);
                 $this->display('edit');
             }else{
@@ -154,7 +154,4 @@ class ProductController extends Controller{
         $this->redirect("index");
     }
 
-    private function addCategory(){
-        $this->assign('categorys',M('Category')->select());
-    }
 }
