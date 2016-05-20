@@ -102,13 +102,13 @@ class SaleController extends Controller{
 		if(IS_GET){
 			$SaleView = D('SaleView');
 			$SaleItemView = D('SaleItemView');
-			$this->assign('vo',$SaleView.find($id));
+			$this->assign('vo',$SaleView->find($id));
 			$this->assign('vo_items',$SaleItemView->where("sale_id=".$id)->select());
 			$this->display();
 		}else if(IS_POST){
 			//find sale
 			$Sale= M('Sale');
-			$sale = $Sale.find($id);
+			$sale = $Sale->find($id);
 			$sale->status = 0;
 			//find sale items
 			$SaleItem = M('SaleItem');
