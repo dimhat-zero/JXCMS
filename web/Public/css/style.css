@@ -158,6 +158,9 @@ width: 100%;
 	padding-left: 50px;
 	background: url('../images/side_li.gif') 40px 13px no-repeat;
 }
+.sideMenu ul a{
+	color:black;
+}
 .sideMenu ul li a{color:black;}
 .sideMenu ul li.on a{color:white;}
 .sideMenu ul li.on{

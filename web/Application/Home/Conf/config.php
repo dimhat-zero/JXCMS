@@ -4,7 +4,7 @@ return array(
     //默认url模式，U函数
     'URL_MODULE' => 1,
     //页面追踪日志
-    'SHOW_PAGE_TRACE'=>true,
+    //'SHOW_PAGE_TRACE'=>true,
     //路径大小写敏感
     'URL_CASE_INSENSITIVE'=>false,
 

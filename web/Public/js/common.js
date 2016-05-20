@@ -38,7 +38,17 @@ $(function(){
 	$(".btn_search").click(function(){
 		$('#pageNo').val(1);
 		$("#search_form").submit();
-	})
+	});
+
+
+	//格式重排列
+	$("#list_table").colResizable({
+        liveDrag:true,
+        gripInnerHtml:"<div class='grip'></div>",
+        draggingClass:"dragging",
+        minWidth:30
+    });
+
 
 });
 

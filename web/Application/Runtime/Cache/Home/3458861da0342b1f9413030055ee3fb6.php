@@ -9,18 +9,7 @@
     <script type="text/javascript" src="/Public/js/common.js"></script>
     <script type="text/javascript" src="/Public/js/jquery.twbsPagination.js"></script>
 
-    <script type="text/javascript">
-        $(function(){
-            $(".list_table").colResizable({
-                liveDrag:true,
-                gripInnerHtml:"<div class='grip'></div>",
-                draggingClass:"dragging",
-                minWidth:30
-            });
-
-        });
-    </script>
-    <title>Document</title>
+    <title>产品管理</title>
 </head>
 <body>
 <div class="container">
