@@ -27,6 +27,7 @@ class StockPileController extends Controller{
             $condition['category_id']=I('get.category_id');
         }
 		$StockPileView = D('StockPileView');
+		$count = $StockPileView->where($condition)->count();
 		
 		//page
 		$page = new \Home\Model\Page($count);//默认取pageNo

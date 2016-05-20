@@ -8,13 +8,14 @@ class SaleController extends Controller{
 	
 	public function index($stock_house_id=NULL,$employee_id=NULL){
 		needLogin();
+		$user = session('user');
 		$SaleView = D('SaleView');
 		$this->assign('employees',M('Employee')->select());
 		$this->assign('stockHouses',M('StockHouse')->select());
 		$this->assign('products',M('Product')->select());
-		if($user.type==1){//不是老板
+		if($user['type']==1){//不是老板
 			$condition['employee_id']=getUserId();
-		}else if($employee_id){
+		}else if($employee_id){//员工只能查看自己的销售
 			$condition['employee_id']=$employee_id;
 		}
 		if($stock_house_id){
