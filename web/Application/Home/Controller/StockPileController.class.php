@@ -34,18 +34,39 @@ class StockPileController extends Controller{
         $query['pageNo']=$page->nowPage;
         $query['totalPages']=$page->totalPages;
         $query['totalRows']=$page->totalRows;
-        $query['id']=$id;
         $query['name']=$name;
         $query['category_id']=$category_id;
         $query['stock_house_id']=$stock_house_id;
         
 		//进行分页查询
-		$list = $StockPileView->where($condition)->limit($page->firstRow,$page->listRows)->select();
+		$list = $StockPileView->where($condition)->order('id desc')->limit($page->firstRow,$page->listRows)->select();
 		$this->assign("list",$list);
 		$this->assign("query",$query);
 		$this->assign('stockHouses',M('StockHouse')->select());
 		$this->assign('categorys',M('Category')->select());
 		$this->display();
+	}
+
+	//增加库存
+	public function add(){
+		if(IS_GET){
+			$this->assign("stockHouses",M('StockHouse')->select());
+			$this->assign("products",M('Product')->select());
+			$this->display();
+		}else if(IS_POST){
+			$StockPile = M('StockPile');
+			if($StockPile->create()){
+				$result = IncStockPile(I('post.stock_house_id'),I('post.product_id'),I('post.quantity'));
+				$this->success("新增库存成功",U("index"));
+			}else{
+				$this->error($StockPile->getError());
+			}
+		}
+	}
+
+	public function del($ids){
+		M('StockPile')->delete($ids);
+		$this->success("删除成功",U("index"));
 	}
 
 	public function update($id){
@@ -66,7 +87,7 @@ class StockPileController extends Controller{
 			}
 			//$obj = $StockPile->find($id);
 			//$obj['quantity']=$quantity;
-			$StockPile->save($obj);
+			$StockPile->save();
 			$this->success("更新成功！");
 		}
 	}

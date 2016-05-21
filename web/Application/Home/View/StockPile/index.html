@@ -82,16 +82,17 @@
         </div>
     </div>
     <!-- list table -->
-    <div id="table" class="mt10" style="width:80%;">
+    <div id="table" class="mt10" style="width:70%;">
         <div class="box span10 oh">
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table">
                 <tr>
                     <th width="30">#</th>
                     <th width="100">仓库名称</th>
                     <th width="100">产品名称</th>
+                    <th width="100">数量</th>
                     <th width="100">规格</th>
                     <th width="100">产品类别</th>
-                    <th width="100">数量</th>
+
                     <th width="100">操作</th>
                 </tr>
                 <foreach name="list" item="vo">
@@ -99,9 +100,10 @@
                     <td class="td_center"><input data-id="{$vo.id}" name="checkbox" type="checkbox"></td>
                     <td>{$vo.stock_house_name}</td>
                     <td>{$vo.product_name}</td>
+                     <td>{$vo.quantity} {$vo.product_unit}</td>
                     <td>{$vo.product_spec}</td>
                     <td>{$vo.category_name}</td>
-                    <td>{$vo.quantity} {$vo.product_unit}</td>
+
                     <td><a href="__CONTROLLER__/update/id/{$vo.id}" class="opa">修改</a></td>
                  </tr>
                 </foreach>

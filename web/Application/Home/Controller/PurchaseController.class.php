@@ -34,7 +34,7 @@ class PurchaseController extends Controller{
         $query['totalRows']=$page->totalRows;
 
 		//进行分页查询
-		$list = $PurchaseView->where($condition)->limit($page->firstRow,$page->listRows)->select();
+		$list = $PurchaseView->where($condition)->order('id desc')->limit($page->firstRow,$page->listRows)->select();
 		$this->assign("list",$list);
 		$query['stock_house_id']=$stock_house_id;
 		$query['employee_id']=$employee_id;
@@ -81,7 +81,7 @@ class PurchaseController extends Controller{
 				$item['purchase_id']=$id;
 				$PurchaseItem->save($item);
 				$result = IncStockPile(I('post.stock_house_id'),$item['product_id'],$item['quantity']);
-				print_r($result);
+				//print_r($result);
 				if(!$result){
 					$flag=false;
 					break;
@@ -166,14 +166,15 @@ class PurchaseController extends Controller{
 		$this->ajaxReturn($data);
 	}
 
+	//not test
 	public function upItem($id){
 		if(IS_GET){
 			$data['data']=D('PurchaseItemView')->find($id);
 			$data['success']=true;
 			$this->ajaxReturn($data);
 		}else if(IS_POST){
+			$PurchaseItem = M('PurchaseItem');
 			if($PurchaseItem->create()){
-				$PurchaseItem = M('PurchaseItem');
 				$PurchaseItem->add();
 				$data['success']=true;
 				$this->ajaxReturn($data);

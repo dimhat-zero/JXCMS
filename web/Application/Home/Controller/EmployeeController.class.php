@@ -9,7 +9,7 @@ class EmployeeController extends Controller{
 	public function index(){
 		$condition['type']=1;//员工 0是老板
 		$condition['status']=1;//可用，非离职
-		$this->assign("list",M('Employee')->where($condition)->select());
+		$this->assign("list",M('Employee')->where($condition)->order('id desc')->select());
 		$this->display();
 	}
 

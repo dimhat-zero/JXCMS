@@ -95,7 +95,7 @@ class ProductController extends Controller{
         $query['totalRows']=$page->totalRows;
         //$page = new \Think\Page($count,$pageSize);
         // 进行分页数据查询
-        $result = $Product->where($condition)->limit($page->firstRow,$page->listRows)->select();
+        $result = $Product->where($condition)->order('id desc')->limit($page->firstRow,$page->listRows)->select();
         $this->assign('list',$result);
         
         //增加其他信息

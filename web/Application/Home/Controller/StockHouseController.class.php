@@ -7,7 +7,7 @@ use Think\Controller;
 class StockHouseController extends Controller{
 	
 	public function index(){
-		$stockHouse = M('StockHouse')->select();
+		$stockHouse = M('StockHouse')->order('id desc')->select();
 		$this->assign('list',$stockHouse);
 		$this->display();
 	}
@@ -21,7 +21,7 @@ class StockHouseController extends Controller{
 				$stockHouse->add();
 				$this->redirect("index");
 			}else{
-				$this->error($category->getError());
+				$this->error($stockHouse->getError());
 			}
 		}
 	}

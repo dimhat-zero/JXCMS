@@ -31,7 +31,7 @@ class SaleController extends Controller{
         $query['totalRows']=$page->totalRows;
 
 		//进行分页查询
-		$list = $SaleView->where($condition)->limit($page->firstRow,$page->listRows)->select();
+		$list = $SaleView->where($condition)->order('id desc')->limit($page->firstRow,$page->listRows)->select();
 		$this->assign('list',$list);
 		$query['stock_house_id']=$stock_house_id;
 		$query['employee_id']=$employee_id;
