@@ -42,7 +42,7 @@ $(function(){
 
 
 	//格式重排列
-	$("#list_table").colResizable({
+	$(".list_table").colResizable({
         liveDrag:true,
         gripInnerHtml:"<div class='grip'></div>",
         draggingClass:"dragging",

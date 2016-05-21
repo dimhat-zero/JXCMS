@@ -1,30 +1,36 @@
 var colModel = [{
-	display : 'ID',
+	display : '序号',
 	name : 'id',
-	width : 80,// 得加上 要不IE报错
+	width : 50,// 得加上 要不IE报错
 	sortable : true,
 	align : 'center'
 }, {
-	display : '商品名称',
+	display : '品名',
 	name : 'name',
 	width : 150,
 	sortable : true,
 	align : 'center'
 }, {
-	display : '规格型号',
-	name : 'stand',
-	width : 118,
+	display : '规格',
+	name : 'product_spec',
+	width : 100,
 	sortable : true,
 	align : 'center'
 }, {
 	display : '数量',
-	name : 'money',
+	name : 'quantity',
 	width : 100,
 	sortable : true,
 	align : 'center'
 }, {
 	display : '单价',
-	name : 'leavings',
+	name : 'unit_price',
+	width : 100,
+	sortable : true,
+	align : 'center'
+}, {
+	display : '金额',
+	name : 'money',
 	width : 100,
 	sortable : true,
 	align : 'center'

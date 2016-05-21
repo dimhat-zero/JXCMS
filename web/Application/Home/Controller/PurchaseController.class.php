@@ -129,9 +129,9 @@ class PurchaseController extends Controller{
 		$rows = array();
 		$total_price=0.0;
 
-		foreach($this->getItems($id) as $item){
+		foreach($this->getItems($id) as $i=>$item){
 			$row['id'] = $item['id'];
-			$row['cell'] = array($item['id'],$item['product_name'],$item['product_spec'],$item['quantity'].$item['product_unit'],$item['unit_price']);
+			$row['cell'] = array($i+1,$item['product_name'],$item['product_spec'],$item['quantity'].$item['product_unit'],$item['unit_price'],$item['unit_price']*$item['quantity']);
 			$rows[]=$row;
 			$total_price +=$item['quantity']*$item['unit_price'];
 		}

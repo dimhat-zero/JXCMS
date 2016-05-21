@@ -91,16 +91,16 @@
           <form action="__CONTROLLER__/addItem" id="itemForm">
 
               <div class="txt-fld">
-                  <label for="product_id">产品</label>
+                  <label for="product_id">品名</label>
                   <select  id="product_id" name="product_id" class="select">
                       <foreach name="products" item="product">
-                          <option value="{$product.id}" data-unit="{$product.unit}" >{$product.name} </option>
+                          <option value="{$product.id}" data-unit="{$product.spec}" >{$product.name} </option>
                       </foreach>
                   </select>
 
               </div>
               <div class="txt-fld">
-                  <label for="product_unit">单位</label>
+                  <label for="product_unit">规格</label>
                   <input id="product_unit" type="text" readonly="" />
               </div>
               <div class="txt-fld">
@@ -201,8 +201,8 @@ $(function(){
         sortorder : "asc",
         title : "商品信息",
 
-        width : 600,
-        height : 200
+        width : 660,
+        height : 500
   });
 
   reloadFlex();
@@ -214,7 +214,7 @@ $(function(){
   $("#product_id").change();
 
 
-  $('#addItemBtn').leanModal({ top : 200, closeButton: ".modal_close" }); 
+  $('#addItemBtn').leanModal({ top : 0, closeButton: ".modal_close" });
   
 
   //添加项目
